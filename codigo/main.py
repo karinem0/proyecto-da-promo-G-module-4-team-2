@@ -28,3 +28,34 @@ sp.exploracion_col_df(df_sin_duplicados)
 #%%
 sp.comprobacion_valores_nulos(df_sin_duplicados)
 # %%
+
+
+cambio_unknow = "hotel", 
+
+cambio_media_mediana = "lead_time"
+
+
+#columnas OK
+is_canceled
+stays_in_weekend_nights	
+stays_in_week_nights
+country
+
+#Completar info descriptiva 
+meal
+
+
+#Columnas revisar 
+arrival_date_day_of_month (16 valores) - valores numericos y nombre
+arrival_date_week_number (54 valores) Quiera 0 
+arrival_date_day_of_month (32 valores revisar si es por valor nulo) Quitar 0
+
+#Preguntar 
+stays_in_weekend_nights (Quitar decimales )
+stays_in_week_nights (Quitar decimales )
+adults	(valores muy altos)
+children (revisar valores altos)
+
+
+
+# %%
