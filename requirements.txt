@@ -1,0 +1,8 @@
+# Para poder instalar todas las dependencias y bibliotecas necesarias: Podrás hacerlo con el comando "pip install -r requirements.txt"
+
+pandas
+numpy
+scikit-learn
+seaborn
+matplotlib
+scipy
