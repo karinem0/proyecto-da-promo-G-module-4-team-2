@@ -310,6 +310,24 @@ def test_man_whitney(dataframe, columnas_metricas, grupo_control, grupo_test, co
             print(f"Para la métrica {metrica}, las medianas son diferentes {p_value}.")
         else:
             print(f"Para la métrica {metrica}, las medianas son iguales {p_value}.")
+
+
     
-     
+def imputar_valores_nulos(dataframe, columna, estrategia='median'):
+    """Imputa valores nulos en una columna del DataFrame utilizando SimpleImputer.
+    Args:
+    - dataframe (DataFrame): El DataFrame en el que se imputarán los valores nulos.
+    - columna (str): El nombre de la columna en la que se imputarán los valores nulos.
+    - estrategia (str, optional): La estrategia a utilizar para la imputación. Por defecto es 'median'.
+    """
+
+    imputer = SimpleImputer(strategy=estrategia)
+    columna_imputada = imputer.fit_transform(dataframe[[columna]])
+    dataframe[columna] = columna_imputada    
+
+
+def imputar_valores_nulos_categoricas(dataframe, columna, categoria):
+    dataframe[columna] = dataframe[columna].fillna(categoria)
+
+
 # %%
