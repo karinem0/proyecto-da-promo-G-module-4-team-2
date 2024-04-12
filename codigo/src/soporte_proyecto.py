@@ -330,4 +330,67 @@ def imputar_valores_nulos_categoricas(dataframe, columna, categoria):
     dataframe[columna] = dataframe[columna].fillna(categoria)
 
 
+def negativos(df, columna):
+    """
+    Verifica si hay números negativos en una columna de un DataFrame y, en caso afirmativo, 
+    los convierte en su valor absoluto.
+    Args:
+        df (pandas.DataFrame): DataFrame de pandas.
+        columna (str): Nombre de la columna a verificar y transformar.
+    Returns:
+        None
+    """
+    if (df[columna] < 0).any():
+        print(f"Hay números negativos en la columna {columna}. Se convertirán a su valor absoluto.")
+        df[columna] = df[columna].abs()
+    else:
+        print(f"No hay números negativos en la columna {columna}.")
+
+
+
+def cambio_categorica(celda):
+    try:
+        if celda >= 1:
+            return "Yes"
+        
+        else:
+            return "No"
+    except:
+        np.nan
+
+def cambio_habitacion_hotel(celda):
+    if celda == "A":
+        return "Habitacion Estandar" 
+    elif celda == "B":
+        return "Habitacion Superior"      
+    elif celda == "C":
+        return "Suite Junior" 
+    elif celda == "D":
+        return "Suite Ejecutiva" 
+    elif celda == "E":
+        return "Suite Presidencial" 
+    elif celda == "F":
+        return "Habitacion Familiar" 
+    elif celda == "G":
+        return "Habitacion con vistas al mar" 
+    elif celda == "H":
+        return "Habitación con acceso para discapacitados" 
+    elif celda == "L":
+        return "suite de lujo" 
+    elif celda == "P":
+        return "suite vistas panoramicas" 
+    
+
+def cambio_regimen_pension(celda):
+    if celda == "HB":
+        return "Media Pension" 
+    elif celda == "FB":
+        return "Pension Completa"      
+    elif celda == "BB":
+        return "Desayuno" 
+    elif celda == "SC":
+        return "Solo Alojamiento"
+    else:
+        return "Undefined"
+
 # %%

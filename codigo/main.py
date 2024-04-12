@@ -3,6 +3,7 @@ from src import soporte_proyecto as sp
 import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 #%%
 ## 🛠️ Apertura CSV
@@ -27,15 +28,12 @@ print(f"Nº Duplicados despues de la limpieza: {df_sin_duplicados.duplicated().s
 # 🛠️ Eliminacion de columnas
 df_sin_duplicados.drop(columns= ["0","company", "market_segment"], inplace=True)
 
-#sp.exploracion_col_df(df_sin_duplicados)
 
 # 🛠️ Gestion de nulos
 
 # Columnas no modificadas (dejamos valores nulos)
 # ARRIVAL_DATE_YEAR, ARRIVAL_DATE_MONTH, ARRIVAL_DATE_WEEK_NUMBER, ARRIVAL_DATE_WEEK_NUMBER,  AGENT, REQUIRED_CAR_PARKING_SPACES, RESERVATION_STATUS_DATE
 
-# Comprobacion
-#sp.comprobacion_valores_nulos(df_sin_duplicados)
 
 cambio_unknow = ["hotel", "is_canceled", "meal", "country", "distribution_channel", "is_repeated_guest", "reserved_room_type", "assigned_room_type", "customer_type", "reservation_status"]
 
@@ -52,37 +50,38 @@ for col in cambio_media_mediana:
 for col in cambio_unknow:
     sp.imputar_valores_nulos_categoricas(df_sin_duplicados,col,"Unknow")
 
-# Comprobacion tras tocar columnas
-#sp.comprobacion_valores_nulos(df_sin_duplicados)
+
+# 🛠️ Cambio valores columnas
+
+cambiar_int =  ["lead_time","arrival_date_year","arrival_date_week_number","arrival_date_day_of_month","stays_in_weekend_nights","stays_in_week_nights","adults","previous_cancellations","previous_bookings_not_canceled","booking_changes","agent","days_in_waiting_list","adr","required_car_parking_spaces","total_of_special_requests"]
+
+cambiar_positivo = ["adr"]
+
+for col in cambiar_int:
+    df_sin_duplicados[col] = df_sin_duplicados[col].apply(sp.cambio_int)
+
+sp.negativos(df_sin_duplicados,"adr")
+
+meses = { "1": "January", "2": "February", "3": "March", "April": "April", "May": "May", "June": "June", "July": "July", "August": "August", "September": "September", "October": "October", "November": "November","December": "December","January": "January", "February": "February", "March": "March"}
+
+df_sin_duplicados["arrival_date_month"] = df_sin_duplicados["arrival_date_month"].map(meses)
 
 
-# 🛠️ Cambio columnas
+df_sin_duplicados["viajan_con_niños"] = df_sin_duplicados["children"].apply(sp.cambio_categorica)
+df_sin_duplicados["viajan_con_bebes"] = df_sin_duplicados["babies"].apply(sp.cambio_categorica)
+df_sin_duplicados["is_repeated_guest"] = df_sin_duplicados["is_repeated_guest"].apply(sp.cambio_categorica)
 
-#columnas OK
-# is_canceled
-# stays_in_weekend_nights	
-# stays_in_week_nights
-# country
+cambio_habitacion = ["reserved_room_type", "assigned_room_type"]
 
-# #Completar info descriptiva 
-# meal
-# reserved_room_type
-# assigned_room_type
+for col in cambio_habitacion:
+    df_sin_duplicados[col] = df_sin_duplicados[col].apply(sp.cambio_habitacion_hotel)
 
-#Columnas revisar 
-# arrival_date_day_of_month (16 valores) - valores numericos y nombre
-# arrival_date_week_number (54 valores) Quietar 0 
-# arrival_date_day_of_month (32 valores revisar si es por valor nulo) Quitar 0
-# IS_REPEATED_GUEST (cambiar a SI/NO - Nulos desconocidos)
-# PREVIOUS_BOOKINGS_NOT_CANCELED (cambiar int)
-# booking_changes (gestionar nulos mirar relacion con cancelacion)
-# AGENT (cambiar int)
-# days_in_waiting_list (cambiar int)- propuesta politica cancelaciones
-# adr (imputacion nulos)
-# required_car_parking_spaces (imputacion nulos)
-# total_of_special_requests (cambiar a int)
-# reservation_status (gestion nulos)
-# reservation_status_date (gestion datas)
+
+df_sin_duplicados["distribution_channel"] = df_sin_duplicados["distribution_channel"].str.replace("Unknow","Undefined")
+df_sin_duplicados["meal"] = df_sin_duplicados["meal"].str.replace("Unknow","Undefined")
+df_sin_duplicados["meal"] = df_sin_duplicados["meal"].apply(sp.cambio_regimen_pension)
+df_sin_duplicados["reservation_status_date"] = df_sin_duplicados["reservation_status_date"].str.split(" ", expand = True).get([0])
+
 
 
 
