@@ -83,6 +83,6 @@ df_sin_duplicados["meal"] = df_sin_duplicados["meal"].apply(sp.cambio_regimen_pe
 df_sin_duplicados["reservation_status_date"] = df_sin_duplicados["reservation_status_date"].str.split(" ", expand = True).get([0])
 
 
-
-
+df_sin_duplicados['country'] = df_sin_duplicados['country'].replace('CN', 'CHN')
+df_sin_duplicados.to_csv('hotel_limpio.csv', index=False)
 # %%
